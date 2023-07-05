@@ -43,10 +43,11 @@ public class YearlyReport {
         } return expensesSum;
     }
     public boolean isExist(){
-        if (isExist){
-            return true;
-        }
-        return false;
+       return isExist;
+    }
+
+    public void createReport(){
+        isExist = true;
     }
 
     public void createYearlyReport(String pathName){
@@ -60,7 +61,7 @@ public class YearlyReport {
             YearlyRecord yearlyRecord = new YearlyRecord(month, amount, isExpense);
             yearlyReport.add(yearlyRecord);
         }
-        isExist = true;
+        createReport();
     }
 
 }

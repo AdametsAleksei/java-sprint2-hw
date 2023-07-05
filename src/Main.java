@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -9,7 +8,6 @@ public class Main {
         YearlyReport yearlyReport = new YearlyReport();
         Comparator comparator = new Comparator();
 
-
          while (true){
             printMenu();
             int command = scanner.nextInt();
@@ -18,13 +16,18 @@ public class Main {
                 System.out.println("Введите количество месяцев, за которые нужно считать отчёты");
                 command = scanner.nextInt();
                 for (int i = 1; i < command + 1; i++) {
-                    monthlyReport.createMonthlyReport("m.20210" + i +".csv",i);
+                    monthlyReport.createMonthlyReport("m.20210" + i + ".csv", i);
                 }
                 System.out.println("Месячные отчеты считаны.");
 
             }else if (command == 2){
-                yearlyReport.createYearlyReport("y.2021.csv");
-                System.out.println("Годовой отчет считан.");
+                //мне кажется предотвратить возможность дублирования годового отчёта логичнее здесь
+                if (yearlyReport.isExist()) {
+                    System.out.println("Годовой отчёт уже считан");
+                }else {
+                    yearlyReport.createYearlyReport("y.2021.csv");
+                    System.out.println("Годовой отчет считан.");
+                }
 
             }else if (command == 3){
                 if(monthlyReport.isExist()){
@@ -52,6 +55,7 @@ public class Main {
                 }else {
                     System.out.println("Годовой отчёт не считан.");
                 }
+
             }else if (command == 0){
                 System.out.println("Хорошего дня! :)");
                 break;

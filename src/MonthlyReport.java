@@ -75,27 +75,30 @@ public class MonthlyReport {
     }
 
     public boolean isExist(){
-        if (isExist){
-            return true;
-        }
-        return false;
+        return isExist;
+    }
+
+    public void createReport(){
+        isExist = true;
     }
 
     public void createMonthlyReport(String fileName, Integer month){
         FileReader fr = new FileReader();
         ArrayList<String> dataFromFile =  fr.readFileContents(fileName);
-        ArrayList<MonthlyRecord> listMonthlyRecord = new ArrayList<>();
-        for (int i = 1; i < dataFromFile.size(); i++){
-            String[] lineContents  = dataFromFile.get(i).split(","); //item_name,is_expense,quantity,unit_price
-            String name = lineContents[0];
-            boolean isExpense = Boolean.parseBoolean(lineContents[1]);
-            int quantity = Integer.parseInt(lineContents[2]);
-            int unitPrice = Integer.parseInt(lineContents[3]);
-            MonthlyRecord monthlyRecord = new MonthlyRecord(name, isExpense, quantity, unitPrice);
-            listMonthlyRecord.add(monthlyRecord);
+        if(!dataFromFile.isEmpty()) {
+            ArrayList<MonthlyRecord> listMonthlyRecord = new ArrayList<>();
+            for (int i = 1; i < dataFromFile.size(); i++) {
+                String[] lineContents = dataFromFile.get(i).split(","); //item_name,is_expense,quantity,unit_price
+                String name = lineContents[0];
+                boolean isExpense = Boolean.parseBoolean(lineContents[1]);
+                int quantity = Integer.parseInt(lineContents[2]);
+                int unitPrice = Integer.parseInt(lineContents[3]);
+                MonthlyRecord monthlyRecord = new MonthlyRecord(name, isExpense, quantity, unitPrice);
+                listMonthlyRecord.add(monthlyRecord);
+            }
+            monthlyReport.put(month, listMonthlyRecord);
+            createReport();
         }
-        monthlyReport.put(month, listMonthlyRecord);
-        isExist = true;
     }
 
 }
